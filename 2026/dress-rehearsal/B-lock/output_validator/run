@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+set -euo pipefail
+SCRIPTPATH=$(cd "$(dirname "$0")" && pwd)
+CHECK_PROGRAM="$SCRIPTPATH/scorer"
+
+TESTIN="$1"
+TESTANS="$2"
+FEEDBACKDIR="$3"
+TEAMOUT="$FEEDBACKDIR/team.out"
+JUDGEMESSAGE="$FEEDBACKDIR/judgemessage.txt"
+
+cat > "$TEAMOUT"
+
+if [ ! -x "$CHECK_PROGRAM" ]; then
+  echo "Missing checker binary: $CHECK_PROGRAM" > "$JUDGEMESSAGE"
+  exit 43
+fi
+
+VERDICT=$("$CHECK_PROGRAM" "$TESTIN" "$TESTANS" "$TEAMOUT" 2>>"$JUDGEMESSAGE") || code=$?
+code=${code:-0}
+
+if [ "$code" -eq 42 ]; then
+  exit 42
+fi
+if [ "$code" -eq 43 ]; then
+  exit 43
+fi
+if [ "$code" -ne 0 ]; then
+  echo "Checker exited with code $code" >> "$JUDGEMESSAGE"
+  exit 43
+fi
+
+if [ "$VERDICT" = "AC" ]; then
+  exit 42
+fi
+exit 43

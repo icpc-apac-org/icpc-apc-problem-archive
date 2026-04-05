@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+SCRIPTPATH=$(cd "$(dirname "$0")" && pwd)
+g++ -O2 -std=c++20 "$SCRIPTPATH/scorer.cpp" -o "$SCRIPTPATH/scorer"
