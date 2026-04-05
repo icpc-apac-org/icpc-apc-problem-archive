@@ -20,13 +20,15 @@ int judgeans_pos, con_pos;
 int judgeans_line, con_line;
 
 void ac() {
-  puts("AC");
-  exit(0); 
+  // puts("AC");
+  // exit(0); 
+  exit(42);
 }
 
 void wa() {
-  puts("WA");
-  exit(0);
+  // puts("WA");
+  // exit(0);
+  exit(43);
 }
 
 void wrong_answer(const char *err, ...) {
